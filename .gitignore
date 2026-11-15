@@ -1,0 +1,18 @@
+# Godot 4 cache and imported resources
+.godot/
+
+# Export builds (generated output)
+build/
+recoil-build/
+
+# Blender backup files
+*.blend1
+*.blend2
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+
+# Local agent tool metadata
+.freebuff/
+.codebuff/

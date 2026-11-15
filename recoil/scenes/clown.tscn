@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://b77tp1y58oyqt"]
+
+[ext_resource type="PackedScene" uid="uid://8im3pm1guh75" path="res://assets/clown/clown.glb" id="1_suuv3"]
+[ext_resource type="Script" uid="uid://ctucl5s0hja00" path="res://scripts/clown.gd" id="2_clown"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
+radius = 0.13
+height = 0.59
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hurt"]
+radius = 0.14
+height = 0.6
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_head"]
+radius = 0.11
+
+[node name="Clown" type="CharacterBody3D" unique_id=820965835]
+collision_layer = 4
+script = ExtResource("2_clown")
+
+[node name="clown" parent="." unique_id=1802134170 instance=ExtResource("1_suuv3")]
+transform = Transform3D(0.1205, 0, 0, 0, 0.1205, 0, 0, 0, 0.1205, 0, 0, 0)
+
+[node name="Body" type="CollisionShape3D" parent="." unique_id=1475235650]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.295, 0)
+shape = SubResource("CapsuleShape3D_body")
+
+[node name="Hurtbox" type="Area3D" parent="." unique_id=545529099]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+
+[node name="Shape" type="CollisionShape3D" parent="Hurtbox" unique_id=1085940957]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+shape = SubResource("CapsuleShape3D_hurt")
+
+[node name="HeadHurtbox" type="Area3D" parent="." unique_id=1631184726]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+metadata/headshot = true
+
+[node name="Shape" type="CollisionShape3D" parent="HeadHurtbox" unique_id=1982572880]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52, 0)
+shape = SubResource("SphereShape3D_head")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1040684026]
+path_desired_distance = 0.25
+target_desired_distance = 0.45
+path_max_distance = 2.5
+height = 0.65
+radius = 0.22

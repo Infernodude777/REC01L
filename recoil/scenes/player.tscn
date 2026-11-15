@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://caus6dlj6484m"]
+
+[ext_resource type="Script" uid="uid://dljx7csy7sbb5" path="res://scripts/player.gd" id="1_player"]
+[ext_resource type="PackedScene" uid="uid://iokjachoj18o" path="res://scenes/gun.tscn" id="2_gun"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
+radius = 0.4
+height = 1.8
+
+[node name="Player" type="CharacterBody3D" unique_id=1703022779]
+collision_layer = 8
+collision_mask = 1
+script = ExtResource("1_player")
+
+[node name="Collision" type="CollisionShape3D" parent="." unique_id=611534266]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_body")
+
+[node name="Head" type="Node3D" parent="." unique_id=414864943]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.62, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head" unique_id=178189378]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+current = true
+fov = 80.0
+far = 400.0
+
+[node name="Gun" parent="Head/Camera3D" unique_id=1066660264 instance=ExtResource("2_gun")]
+transform = Transform3D(-4.3439883e-09, 0, 0.0012, 0, 0.0012, 0, -0.0012, 0, -4.3439883e-09, 0.19, -0.18, -0.42)
+
+[node name="Muzzle" type="Marker3D" parent="Head/Camera3D" unique_id=1797373475]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, -0.1, -0.75)

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://dtipdlhsn5dcm"]
+
+[ext_resource type="Texture2D" uid="uid://beed4aby6n4f" path="res://2d Assets/hunger.png" id="1_w4atc"]
+[ext_resource type="Texture2D" uid="uid://dnf5rbnwkgeqx" path="res://2d Assets/hunger_filler.png" id="2_lbg26"]
+[ext_resource type="Texture2D" uid="uid://b1yf2k0h5xjwd" path="res://2d Assets/hunger_transp.png" id="3_bkfwf"]
+
+[node name="HungerBar" type="Node2D" unique_id=1465676165]
+
+[node name="Hunger" type="Sprite2D" parent="." unique_id=1074224763]
+position = Vector2(576.5, 323.00003)
+scale = Vector2(0.28675, 0.21733335)
+texture = ExtResource("1_w4atc")
+
+[node name="HungerFiller" type="Sprite2D" parent="." unique_id=1620178938]
+position = Vector2(577.49994, 323.99997)
+scale = Vector2(0.28474998, 0.21000001)
+texture = ExtResource("2_lbg26")
+
+[node name="HungerTransp" type="Sprite2D" parent="." unique_id=814661319]
+position = Vector2(577.99994, 324.5)
+scale = Vector2(0.28849998, 0.21499999)
+texture = ExtResource("3_bkfwf")

@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://bft345k6r3kfc"]
+
+[ext_resource type="Shader" path="res://shaders/vignette.gdshader" id="1_shader"]
+[ext_resource type="Script" path="res://scripts/vignette_effect.gd" id="2_vignette"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vignette"]
+shader = ExtResource("1_shader")
+shader_parameter/strength = 0.82
+shader_parameter/radius = 0.3
+shader_parameter/softness = 0.45
+shader_parameter/aspect = 1.777778
+shader_parameter/grain_amount = 0.14
+shader_parameter/grain_size = 1.5
+shader_parameter/grain_speed = 18.0
+shader_parameter/grain_tint = 0.22
+
+[node name="Vignette" type="CanvasLayer"]
+layer = -1
+
+[node name="Overlay" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_vignette")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+mouse_filter = 2
+script = ExtResource("2_vignette")

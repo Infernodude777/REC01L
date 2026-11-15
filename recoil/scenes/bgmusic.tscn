@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/bgmusic.gd" id="1_bgmusic"]
+[ext_resource type="AudioStream" uid="uid://djygo0nft0jfn" path="res://sounds/bg/undistorted-transition-better.mp3" id="2_track"]
+
+[node name="BGMusic" type="Node" unique_id=1837462819]
+script = ExtResource("1_bgmusic")
+stream = ExtResource("2_track")
+volume_db = -6.0
+overlap = 0.8

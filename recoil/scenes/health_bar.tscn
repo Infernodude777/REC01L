@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://bex7sp6rb4bj2"]
+
+[ext_resource type="Texture2D" uid="uid://bvolpvowo0jbi" path="res://2d Assets/health.png" id="1_6opq1"]
+[ext_resource type="Texture2D" uid="uid://cm20088qkolps" path="res://2d Assets/health_filler.png" id="2_tujlf"]
+[ext_resource type="Texture2D" uid="uid://b7ggq6xv13ypj" path="res://2d Assets/health_transp.png" id="3_5oo0i"]
+
+[node name="HealthBar" type="Node2D" unique_id=892141116]
+
+[node name="Health" type="Sprite2D" parent="." unique_id=60128283]
+position = Vector2(576.5, 327)
+scale = Vector2(0.28725, 0.21800001)
+texture = ExtResource("1_6opq1")
+
+[node name="HealthFiller" type="Sprite2D" parent="." unique_id=1409863577]
+position = Vector2(575.5, 326.49994)
+scale = Vector2(0.28724998, 0.2163333)
+texture = ExtResource("2_tujlf")
+
+[node name="HealthTransp" type="Sprite2D" parent="." unique_id=767873774]
+position = Vector2(577.5, 326.49997)
+scale = Vector2(0.28775, 0.21499999)
+texture = ExtResource("3_5oo0i")

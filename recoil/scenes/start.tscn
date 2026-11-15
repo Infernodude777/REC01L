@@ -1,0 +1,101 @@
+[gd_scene format=3 uid="uid://drdktio6bqonc"]
+
+[ext_resource type="Script" uid="uid://cgjlpti4lf75f" path="res://scripts/start.gd" id="1_start"]
+[ext_resource type="Texture2D" uid="uid://c0mgnfbbrs52c" path="res://2d Assets/buttons/play.png" id="2_play"]
+[ext_resource type="Texture2D" uid="uid://ct0n7543axdhw" path="res://2d Assets/buttons/play_hover.png" id="3_play_hover"]
+[ext_resource type="Texture2D" uid="uid://cijtvai8osgrr" path="res://2d Assets/buttons/quit.png" id="4_quit"]
+[ext_resource type="Texture2D" uid="uid://dfi12nc8sqpb7" path="res://2d Assets/buttons/quit_hover.png" id="5_quit_hover"]
+[ext_resource type="Texture2D" uid="uid://bmcurnk5047gw" path="res://2d Assets/recoil_logo.png" id="6_logo"]
+[ext_resource type="Texture2D" uid="uid://c20bnyipsndk5" path="res://2d Assets/cover.png" id="7_cover"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_logo"]
+atlas = ExtResource("6_logo")
+region = Rect2(0, 770, 4000, 1460)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_play"]
+atlas = ExtResource("2_play")
+region = Rect2(487, 551, 2849, 1563)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_play_hover"]
+atlas = ExtResource("3_play_hover")
+region = Rect2(487, 551, 2849, 1563)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_quit"]
+atlas = ExtResource("4_quit")
+region = Rect2(487, 551, 2849, 1563)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_quit_hover"]
+atlas = ExtResource("5_quit_hover")
+region = Rect2(487, 551, 2849, 1563)
+
+[node name="Start" type="Control" unique_id=1449519064]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_start")
+
+[node name="Background" type="TextureRect" parent="." unique_id=922388654]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("7_cover")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Logo" type="TextureRect" parent="." unique_id=661624769]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -240.0
+offset_top = 250.0
+offset_right = 220.0
+offset_bottom = 418.0
+grow_horizontal = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_logo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Play" type="TextureButton" parent="." unique_id=181846703]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.75
+anchor_right = 0.5
+anchor_bottom = 0.75
+offset_left = -325.0
+offset_top = -97.0
+offset_right = -33.0
+offset_bottom = 63.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = SubResource("AtlasTexture_play")
+texture_hover = SubResource("AtlasTexture_play_hover")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Quit" type="TextureButton" parent="." unique_id=1003034798]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.75
+anchor_right = 0.5
+anchor_bottom = 0.75
+offset_left = 15.0
+offset_top = -97.0
+offset_right = 307.0
+offset_bottom = 63.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = SubResource("AtlasTexture_quit")
+texture_hover = SubResource("AtlasTexture_quit_hover")
+ignore_texture_size = true
+stretch_mode = 0

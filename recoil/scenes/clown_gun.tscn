@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/clown_gun/gun_clown.glb" id="1_model"]
+[ext_resource type="Script" path="res://scripts/clown_gun.gd" id="2_gun_clown"]
+[ext_resource type="PackedScene" path="res://scenes/gun.tscn" id="3_gun"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
+radius = 0.13
+height = 0.62
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hurt"]
+radius = 0.14
+height = 0.63
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_head"]
+radius = 0.11
+
+[node name="ClownGun" type="CharacterBody3D"]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("2_gun_clown")
+chase_speed = 1.5
+speed_spread = 0.12
+size_spread = 0.08
+
+[node name="clown" parent="." instance=ExtResource("1_model")]
+transform = Transform3D(0.1205, 0, 0, 0, 0.1205, 0, 0, 0, 0.1205, 0, 0, 0)
+
+[node name="GunHold" type="Marker3D" parent="clown"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, 1.685, 0.8)
+
+[node name="Gun" parent="clown/GunHold" instance=ExtResource("3_gun")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 0)
+
+[node name="Body" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.31, 0)
+shape = SubResource("CapsuleShape3D_body")
+
+[node name="Hurtbox" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+
+[node name="Shape" type="CollisionShape3D" parent="Hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.315, 0)
+shape = SubResource("CapsuleShape3D_hurt")
+
+[node name="HeadHurtbox" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+metadata/headshot = true
+
+[node name="Shape" type="CollisionShape3D" parent="HeadHurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52, 0)
+shape = SubResource("SphereShape3D_head")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 0.25
+target_desired_distance = 0.45
+path_max_distance = 2.5
+radius = 0.22
+height = 0.65

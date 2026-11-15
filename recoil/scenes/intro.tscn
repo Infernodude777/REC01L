@@ -1,0 +1,147 @@
+[gd_scene load_steps=6 format=3 uid="uid://b5n2ffcubvycp"]
+
+[ext_resource type="Script" path="res://scripts/intro.gd" id="1_intro"]
+[ext_resource type="Texture2D" path="res://2d Assets/intro/circus_background.png" id="2_background"]
+[ext_resource type="Texture2D" path="res://2d Assets/intro/punch_clown.png" id="3_punch"]
+[ext_resource type="Texture2D" path="res://2d Assets/intro/shooter_clown.png" id="4_shooter"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dialogue"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.03, 0.03, 0.045, 0.9)
+border_width_top = 1
+border_color = Color(0.45, 0.16, 0.2, 0.85)
+
+[node name="Intro" type="Control" unique_id=1221939502]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_intro")
+next_scene = "res://scenes/start.tscn"
+
+[node name="Background" type="TextureRect" parent="." unique_id=1853788262]
+modulate = Color(0.6, 0.56, 0.62, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_background")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Characters" type="Control" parent="." unique_id=1461718914]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CharacterLeft" type="TextureRect" parent="Characters" unique_id=1508679515]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = -560.0
+offset_right = 460.0
+offset_bottom = 0.0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("3_punch")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CharacterRight" type="TextureRect" parent="Characters" unique_id=106489045]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -460.0
+offset_top = -560.0
+offset_right = -40.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("4_shooter")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="DialogueUI" type="Panel" parent="." unique_id=1157925303]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 0.75
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dialogue")
+
+[node name="MarginContainer" type="MarginContainer" parent="DialogueUI" unique_id=856742290]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 44
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DialogueUI/MarginContainer" unique_id=617821431]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="CharacterName" type="Label" parent="DialogueUI/MarginContainer/VBoxContainer" unique_id=2010659829]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.84, 0.55, 1)
+theme_override_font_sizes/font_size = 30
+text = "Character Name"
+
+[node name="DialogueText" type="RichTextLabel" parent="DialogueUI/MarginContainer/VBoxContainer" unique_id=1715442368]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.92, 0.9, 0.87, 1)
+theme_override_font_sizes/normal_font_size = 22
+bbcode_enabled = true
+text = "[i]Dialogue text goes here.[/i]"
+scroll_active = false
+
+[node name="ContinueIndicator" type="Label" parent="DialogueUI" unique_id=458781314]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -340.0
+offset_top = -40.0
+offset_right = -28.0
+offset_bottom = -12.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.82, 0.78, 0.72, 0.75)
+theme_override_font_sizes/font_size = 16
+text = "Click or press [Space] to continue"
+horizontal_alignment = 2
+vertical_alignment = 2
