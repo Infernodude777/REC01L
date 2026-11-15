@@ -17,7 +17,7 @@ radius = 0.11
 
 [node name="ClownGun" type="CharacterBody3D"]
 collision_layer = 4
-collision_mask = 1
+collision_mask = 9
 script = ExtResource("2_gun_clown")
 chase_speed = 1.5
 speed_spread = 0.12

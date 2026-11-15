@@ -16,3 +16,6 @@ Thumbs.db
 # Local agent tool metadata
 .freebuff/
 .codebuff/
+
+# Blender source assets (kept locally, not part of the game repo)
+blender/

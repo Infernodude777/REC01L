@@ -16,6 +16,7 @@ radius = 0.11
 
 [node name="Clown" type="CharacterBody3D" unique_id=820965835]
 collision_layer = 4
+collision_mask = 9
 script = ExtResource("2_clown")
 
 [node name="clown" parent="." unique_id=1802134170 instance=ExtResource("1_suuv3")]
