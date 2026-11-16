@@ -5,8 +5,8 @@ const SHOT_SOUND := preload("res://sounds/gun/pistol-sound-effect_zejYI9w.mp3")
 const GUN_SHELL := Color(0.86, 0.06, 0.09)
 const GUN_METAL := Color(1.0, 0.76, 0.2)
 
-@export var walk_speed := 1.0
 @export var sprint_speed := 2.0
+@export var slide_move_speed := 1.0
 @export var jump_speed := 3.3
 @export var mouse_sensitivity := 0.0022
 @export var scope_fov := 50.0
@@ -14,7 +14,7 @@ const GUN_METAL := Color(1.0, 0.76, 0.2)
 @export var scope_sensitivity := 0.6
 @export var health_max := 100.0
 @export var hunger_max := 100.0
-@export var hunger_sprint_drain := 15.0
+@export var hunger_slide_drain := 4.0
 @export var hunger_regen := 10.0
 @export var hunger_slide_jump_cost := 30.0
 @export var starve_damage := 2.5
@@ -27,13 +27,8 @@ const GUN_METAL := Color(1.0, 0.76, 0.2)
 @export var pickup_radius := 0.45
 @export var slide_time := 0.55
 @export var slide_speed := 3.1
-@export var roll_time := 0.42
-@export var roll_speed := 3.8
-@export var stamina_max := 100.0
-@export var sprint_drain := 15.0
-@export var slide_jump_cost := 30.0
-@export var stamina_regen := 10.0
-@export var sprint_min := 30.0
+@export var sidestep_time := 0.18
+@export var sidestep_speed := 7.5
 @export var stand_height := 1.8
 @export var crouch_height := 0.9
 @export var stand_head := 1.62
@@ -56,15 +51,12 @@ var ammo := 0
 var camera_rest := Vector3.ZERO
 var dip_tween: Tween
 var head_tween: Tween
-var spin_tween: Tween
 var shells: Array[MeshInstance3D] = []
 var slide_timer := 0.0
-var roll_timer := 0.0
+var sidestep_timer := 0.0
 var slide_dir := Vector3.FORWARD
-var roll_dir := Vector3.RIGHT
+var sidestep_dir := Vector3.RIGHT
 var slide_jump := false
-var stamina := 0.0
-var exhausted := false
 var low := false
 var stand_shape: Shape3D
 var crouch_shape: Shape3D
@@ -88,7 +80,6 @@ func _ready() -> void:
 	gun_rest = gun.position
 	gun_aim = Vector3(gun_rest.x * 0.38, gun_rest.y + 0.035, gun_rest.z)
 	ammo = canister_size
-	stamina = stamina_max
 	health = health_max
 	hunger = hunger_max
 	paint_gun()
@@ -110,11 +101,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	var grounded := is_on_floor()
-	if stamina <= 0.0:
-		exhausted = true
-	elif exhausted and stamina >= sprint_min:
-		exhausted = false
-	var sprinting := Input.is_action_pressed("sprint") and not exhausted
+	var slide_held := Input.is_action_pressed("slide")
 	var falling := velocity.y
 	if not grounded:
 		velocity.y -= gravity * delta
@@ -122,48 +109,45 @@ func _physics_process(delta: float) -> void:
 		var sliding := slide_timer > 0.0
 		velocity.y = jump_speed
 		cancel_low()
-		if sliding and stamina > 0.0:
+		if sliding and hunger > 0.0:
 			slide_jump = true
-			stamina = maxf(stamina - slide_jump_cost, 0.0)
 			hunger = maxf(hunger - hunger_slide_jump_cost, 0.0)
 			velocity.x = slide_dir.x * slide_speed * 2.0
 			velocity.z = slide_dir.z * slide_speed * 2.0
-	if Input.is_action_just_pressed("slide") and sprinting:
+	if Input.is_action_just_pressed("slide") and grounded:
 		start_slide(grounded)
-	if Input.is_action_just_pressed("roll") and Input.is_action_pressed("sprint"):
-		start_roll(grounded)
+	if Input.is_action_just_pressed("sidestep") and grounded:
+		start_sidestep(grounded)
 
 	if slide_timer > 0.0:
 		slide_timer = maxf(slide_timer - delta, 0.0)
 		velocity.x = slide_dir.x * slide_speed
 		velocity.z = slide_dir.z * slide_speed
-		if slide_timer <= 0.0:
+		if slide_timer <= 0.0 and not slide_held:
 			stand()
-	elif roll_timer > 0.0:
-		roll_timer = maxf(roll_timer - delta, 0.0)
-		velocity.x = roll_dir.x * roll_speed
-		velocity.z = roll_dir.z * roll_speed
-		if roll_timer <= 0.0:
+	elif sidestep_timer > 0.0:
+		sidestep_timer = maxf(sidestep_timer - delta, 0.0)
+		var push := sidestep_speed * (sidestep_timer / sidestep_time)
+		velocity.x = sidestep_dir.x * push
+		velocity.z = sidestep_dir.z * push
+		if sidestep_timer <= 0.0 and not slide_held:
 			stand()
 	else:
-		if low:
+		if slide_held and grounded:
+			drop()
+		elif low:
 			stand()
 		if grounded and velocity.y <= 0.0:
 			slide_jump = false
 		if not slide_jump:
 			var input := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 			var direction := (transform.basis * Vector3(input.x, 0.0, input.y)).normalized()
-			var speed := sprint_speed if sprinting else walk_speed
+			var speed := slide_move_speed if slide_held else sprint_speed
 			velocity.x = move_toward(velocity.x, direction.x * speed, acceleration * delta)
 			velocity.z = move_toward(velocity.z, direction.z * speed, acceleration * delta)
 
-	if sprinting and grounded and not low:
-		stamina = maxf(stamina - sprint_drain * delta, 0.0)
-	elif not low:
-		stamina = minf(stamina + stamina_regen * delta, stamina_max)
-
-	if sprinting and grounded and not low:
-		hunger = maxf(hunger - hunger_sprint_drain * delta, 0.0)
+	if slide_held and grounded and low:
+		hunger = maxf(hunger - hunger_slide_drain * delta, 0.0)
 	elif not low:
 		hunger = minf(hunger + hunger_regen * delta, hunger_max)
 	if hunger <= 0.0:
@@ -176,7 +160,7 @@ func _physics_process(delta: float) -> void:
 	collect_shells()
 
 func start_slide(grounded: bool) -> void:
-	if not grounded or slide_timer > 0.0 or roll_timer > 0.0:
+	if not grounded or slide_timer > 0.0 or sidestep_timer > 0.0:
 		return
 	var flat := Vector3(velocity.x, 0.0, velocity.z)
 	if flat.length() < 0.1:
@@ -185,19 +169,18 @@ func start_slide(grounded: bool) -> void:
 	slide_timer = slide_time
 	drop()
 
-func start_roll(grounded: bool) -> void:
-	if not grounded or slide_timer > 0.0 or roll_timer > 0.0:
+func start_sidestep(grounded: bool) -> void:
+	if not grounded or slide_timer > 0.0 or sidestep_timer > 0.0:
 		return
 	var side := 1.0
 	if Input.is_action_pressed("move_left"):
 		side = -1.0
 	elif Input.is_action_pressed("move_right"):
 		side = 1.0
-	roll_dir = Vector3(global_basis.x.x, 0.0, global_basis.x.z).normalized() * side
-	roll_timer = roll_time
+	sidestep_dir = Vector3(global_basis.x.x, 0.0, global_basis.x.z).normalized() * side
+	sidestep_timer = sidestep_time
 	drop()
-	dip(0.6)
-	spin(side)
+	dip(0.4)
 
 func drop() -> void:
 	if low:
@@ -219,10 +202,7 @@ func stand() -> void:
 
 func cancel_low() -> void:
 	slide_timer = 0.0
-	roll_timer = 0.0
-	if spin_tween != null:
-		spin_tween.kill()
-	camera.rotation.z = 0.0
+	sidestep_timer = 0.0
 	stand()
 
 func swing_head(height: float) -> void:
@@ -230,17 +210,6 @@ func swing_head(height: float) -> void:
 		head_tween.kill()
 	head_tween = create_tween()
 	head_tween.tween_property(head, "position:y", height, 0.1)
-
-func spin(side: float) -> void:
-	if spin_tween != null:
-		spin_tween.kill()
-	camera.rotation.z = 0.0
-	spin_tween = create_tween()
-	spin_tween.tween_property(camera, "rotation:z", -TAU * side, roll_time)
-	spin_tween.tween_callback(reset_spin)
-
-func reset_spin() -> void:
-	camera.rotation.z = 0.0
 
 func land(falling: float) -> void:
 	var rise := minf(-falling * bounce_restitution, jump_speed)
@@ -388,7 +357,7 @@ func take_hit(amount: float, _headshot := false) -> void:
 		global_position = scene.pick_spawn(self).origin
 		velocity = Vector3.ZERO
 		slide_timer = 0.0
-		roll_timer = 0.0
+		sidestep_timer = 0.0
 
 func dip(strength: float) -> void:
 	if dip_tween != null:

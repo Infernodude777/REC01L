@@ -38,9 +38,9 @@ const DIALOGUE := [
 	{"speaker": "L", "text": "Or don't"},
 	{"speaker": "L", "text": "I like to live"},
 	{"speaker": "B", "text": "Hehehehe", "sound": VILLAIN_LAUGH},
-	{"speaker": "R", "text": "Shift to sprint", "sound": SILLY_LAUGH},
-	{"speaker": "L", "text": "Use c to roll sideways while sprinting"},
-	{"speaker": "R", "text": "and use control to slide while sprinting"},
+	{"speaker": "R", "text": "Shift to slide", "sound": SILLY_LAUGH},
+	{"speaker": "L", "text": "Hold it to stay low"},
+	{"speaker": "R", "text": "and use c to side step out of the way"},
 	{"speaker": "L", "text": "Slide jumping launches you SUPER FAR!!!!"},
 	{"speaker": "B", "text": "Ready?", "sound": SILLY_LAUGH},
 ]

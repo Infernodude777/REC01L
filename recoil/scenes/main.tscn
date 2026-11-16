@@ -15,7 +15,11 @@
 [ext_resource type="PackedScene" uid="uid://bft345k6r3kfc" path="res://scenes/vignette.tscn" id="15_vignette_scene"]
 [ext_resource type="PackedScene" path="res://scenes/clown_gun.tscn" id="16_clown_gun"]
 [ext_resource type="PackedScene" path="res://scenes/bgmusic.tscn" id="17_bgmusic"]
-[ext_resource type="Texture2D" path="res://2d Assets/intro/punch_clown.png" id="18_life_art"]
+[ext_resource type="Texture2D" uid="uid://cid1thvlnqvhc" path="res://2d Assets/intro/punch_clown.png" id="18_life_art"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_life"]
+atlas = ExtResource("18_life_art")
+region = Rect2(150, 140, 600, 520)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_health_back"]
 atlas = ExtResource("8_health_art")
@@ -40,10 +44,6 @@ region = Rect2(1124, 1560, 2232, 252)
 [sub_resource type="AtlasTexture" id="AtlasTexture_hunger_frame"]
 atlas = ExtResource("14_hunger_frame_art")
 region = Rect2(747, 1544, 2624, 278)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_life"]
-atlas = ExtResource("18_life_art")
-region = Rect2(150, 140, 600, 520)
 
 [node name="Main" type="Node3D" unique_id=2036091538]
 script = ExtResource("4_game")
@@ -73,6 +73,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.56, -9.5)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 0.56, -6.5)
 
 [node name="SpawnPoints" type="Node3D" parent="." unique_id=1390021133]
+visible = false
 
 [node name="Spawn1" type="Marker3D" parent="SpawnPoints" unique_id=1791939008]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0.56, 1)
@@ -113,6 +114,7 @@ transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0.6, 2)
 
 [node name="Lives" type="Control" parent="." unique_id=1837462901]
 layout_mode = 3
+anchors_preset = 0
 offset_left = 28.0
 offset_top = 22.0
 offset_right = 268.0
@@ -194,7 +196,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 theme_override_colors/font_color = Color(1, 0.1, 0.1, 0.95)
 theme_override_colors/font_outline_color = Color(0.04, 0, 0, 0.9)
 theme_override_constants/outline_size = 8
@@ -205,7 +206,6 @@ vertical_alignment = 1
 
 [node name="Count" type="Label" parent="Kills/Row" unique_id=1837462916]
 layout_mode = 2
-mouse_filter = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.85, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.85)
 theme_override_constants/outline_size = 6
